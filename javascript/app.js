@@ -19,31 +19,31 @@ const phrases = [
     'To be or not to be'
 ];
 
+// FUNCTION THAT WILL PICK RANDOM STRING ON ARRAY
+
 function getRandomPhraseAsArray(arr) {
     const phrasesRandom = Math.floor( Math.random() * 5 ); 
     for ( let i = 0; i < arr.length; i++ ) {
         arrRandom = arr[phrasesRandom];
+        arrRandomSplitted = arrRandom.split('');
     }
-    return arrRandom.split();
+    return arrRandomSplitted;
 }
+// This function will get the chosen array from above funct to show on html li and goota do conditional statments now
 
 function addPhraseToDisplay(arr) {
-    let charactersRdy = document.createElement('li');
     const charactersLI = document.querySelector('#phrase ul');
-    charactersLI.appendChild(charactersRdy);
-    let characters = ``;
     for ( let i = 0; i < arr.length; i++ ) {
-        characters += arr[i];
-        charactersArray = [...characters];
+        charactersRdy = document.createElement('li');
+        charactersRdy.innerHTML = arr[i];
+        if (  arr[i] === ' ') {
+            
+        } else {
+            charactersRdy.className += 'letter';
+        }
+        charactersLI.appendChild(charactersRdy);
     }
-    for ( let x = 0; x < charactersArray.length; x++ ) {
-        charactersRdy.innerHTML += `<li>${charactersArray[x]}</li>`;
-    }    
-    return charactersRdy;
 }
-
-
-
 const phraseArray = getRandomPhraseAsArray(phrases);
 
-addPhraseToDisplay(phraseArray); 
+const phraseAdded = addPhraseToDisplay(phraseArray);
