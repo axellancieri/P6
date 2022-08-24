@@ -8,10 +8,10 @@ const planets = [
   'Mars'
 ];
 
-console.log(planetsp[0]);
-console.log(planetsp[1]);
-console.log(planetsp[2]);
-console.log(planetsp[3]);
+console.log(planets[0]);
+console.log(planets[1]);
+console.log(planets[2]);
+console.log(planets[3]);
 
 ========================================================
 <!-- add and remove items, also count how many there are -->
