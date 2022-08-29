@@ -12,11 +12,11 @@ startGame.addEventListener('click', () => {
 
 
 const phrases = [
-    'Today is a good day',
-    'Would love some tacos',
-    'Redemption song',
-    'Wind instrumets are best instruments',
-    'To be or not to be'
+    'today is a good day',
+    'would love some tacos',
+    'redemption song',
+    'wind instrumets are the coolest',
+    'to be or not to be'
 ];
 
 // FUNCTION THAT WILL PICK RANDOM STRING ON ARRAY
@@ -43,7 +43,36 @@ function addPhraseToDisplay(arr) {
         }
         charactersLI.appendChild(charactersRdy);
     }
+    return charactersLI;
 }
-const phraseArray = getRandomPhraseAsArray(phrases);
 
-const phraseAdded = addPhraseToDisplay(phraseArray);
+const phraseArray = getRandomPhraseAsArray(phrases);
+addPhraseToDisplay(phraseArray);
+
+
+// checkLetter function
+
+let matchedLetters = ``;
+const checkLetter = function (guessedLetter) {
+    const characters = document.getElementsByClassName('letter');
+    const arrayCharacters = Array.from(characters);
+    for( i = 0; i < arrayCharacters.length; i++ ) {
+        if ( arrayCharacters[i].innerHTML.indexOf(guessedLetter) !== -1 ) {
+            arrayCharacters[i].className = 'show';
+            matchedLetters += `${guessedLetter}, `
+        } else {
+            null
+        }
+    }
+    return matchedLetters;
+}
+const allButtons = keys.querySelectorAll('.keyrow > button');
+const arrayButtons = Array.from(allButtons);
+for (let i = 0 ; i < arrayButtons.length; i++) {
+    arrayButtons[i].style.cursor = 'pointer';
+    arrayButtons[i].addEventListener('click', (e) => {
+        arrayButtons[i].className = 'chosen';
+        arrayButtons[i].disabled = true;
+        checkLetter(arrayButtons[i].innerHTML);
+    })
+}
