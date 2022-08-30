@@ -51,28 +51,35 @@ addPhraseToDisplay(phraseArray);
 
 
 // checkLetter function
-
-let matchedLetters = ``;
+let matchedLetter = ``;
 const checkLetter = function (guessedLetter) {
     const characters = document.getElementsByClassName('letter');
     const arrayCharacters = Array.from(characters);
     for( i = 0; i < arrayCharacters.length; i++ ) {
-        if ( arrayCharacters[i].innerHTML.indexOf(guessedLetter) !== -1 ) {
-            arrayCharacters[i].className = 'show';
-            matchedLetters += `${guessedLetter}, `
+        if ( arrayCharacters[i].innerHTML.includes(guessedLetter) === true ) {
+            arrayCharacters[i].classList.add('show');
+            matchedLetter += `${guessedLetter}`
         } else {
             null
         }
     }
-    return matchedLetters;
+    return matchedLetter;
 }
 const allButtons = keys.querySelectorAll('.keyrow > button');
 const arrayButtons = Array.from(allButtons);
+const heartQuery = document.querySelector('#scoreboard');
 for (let i = 0 ; i < arrayButtons.length; i++) {
     arrayButtons[i].style.cursor = 'pointer';
-    arrayButtons[i].addEventListener('click', (e) => {
+    arrayButtons[i].addEventListener('click', () => {
         arrayButtons[i].className = 'chosen';
         arrayButtons[i].disabled = true;
         checkLetter(arrayButtons[i].innerHTML);
+        letterFound = checkLetter(arrayButtons[i].innerHTML);
+        const heartQuerAll = heartQuery.querySelectorAll('ol > li > img');
+        const heartCount = heartQuerAll[missed]
+        if (letterFound.includes(arrayButtons[i].innerHTML) === false) {
+            missed++;
+            heartCount.setAttribute('src','images/lostHeart.png');
+        }
     })
 }
