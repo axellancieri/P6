@@ -64,7 +64,6 @@ const checkLetter = function (guessedLetter) {
         if ( arrayCharacters[i].innerHTML.includes(guessedLetter) ) {
             arrayCharacters[i].classList.add('show');
             matchedLetter = guessedLetter;
-            console.log('good')
         }
     }
     return matchedLetter;
@@ -85,6 +84,23 @@ for (let i = 0 ; i < arrayButtons.length; i++) {
             missed++;
             heartCount.setAttribute('src','images/lostHeart.png');
         }
+        checkWin();
     })
+
     
+}
+const checkWin = function (classes) {
+    const classShow = document.getElementsByClassName('show');
+    const arrayClassShow = Array.from(classShow);
+    const classLetter = document.getElementsByClassName('letter');
+    const arrayClassLetter = Array.from(classLetter);
+    // for ( i = 0; i < arrayClassShow.length; i++ ) {
+        if ( arrayClassShow.length === arrayClassLetter.length ) {
+            console.log('won!');
+        } else if ( missed === 5) {
+            console.log('F');
+        }
+
+    // }
+
 }
