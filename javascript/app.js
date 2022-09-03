@@ -49,22 +49,27 @@ function addPhraseToDisplay(arr) {
 const phraseArray = getRandomPhraseAsArray(phrases);
 addPhraseToDisplay(phraseArray);
 
-
+// function checkLetter2(guessedLetter) {
+    // agarro los elementos 'li' que tienen la clase 'letter'
+    // encontrar si la letra que le doy matchea o no
+    // si matchea le agrego clase show, si no la funcion da
+// }
 // checkLetter function
-let matchedLetter = ``;
+// let matchedLetter = ``;
 const checkLetter = function (guessedLetter) {
     const characters = document.getElementsByClassName('letter');
     const arrayCharacters = Array.from(characters);
+    let matchedLetter = null;
     for( i = 0; i < arrayCharacters.length; i++ ) {
-        if ( arrayCharacters[i].innerHTML.includes(guessedLetter) === true ) {
+        if ( arrayCharacters[i].innerHTML.includes(guessedLetter) ) {
             arrayCharacters[i].classList.add('show');
-            matchedLetter += `${guessedLetter}`
-        } else {
-            null
+            matchedLetter = guessedLetter;
+            console.log('good')
         }
     }
     return matchedLetter;
 }
+
 const allButtons = keys.querySelectorAll('.keyrow > button');
 const arrayButtons = Array.from(allButtons);
 const heartQuery = document.querySelector('#scoreboard');
@@ -73,13 +78,13 @@ for (let i = 0 ; i < arrayButtons.length; i++) {
     arrayButtons[i].addEventListener('click', () => {
         arrayButtons[i].className = 'chosen';
         arrayButtons[i].disabled = true;
-        checkLetter(arrayButtons[i].innerHTML);
-        letterFound = checkLetter(arrayButtons[i].innerHTML);
+        let letterFound = checkLetter(arrayButtons[i].innerHTML);
         const heartQuerAll = heartQuery.querySelectorAll('ol > li > img');
         const heartCount = heartQuerAll[missed]
-        if (letterFound.includes(arrayButtons[i].innerHTML) === false) {
+        if (letterFound === null) {
             missed++;
             heartCount.setAttribute('src','images/lostHeart.png');
         }
     })
+    
 }
