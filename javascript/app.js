@@ -1,13 +1,44 @@
-const keys = document.getElementById('qwerty');
 const phrase = document.getElementById('phrase');
-let missed = 0;
-const startGame = document.querySelector('.btn__reset')
+//overlay vars
+    const overlay = document.getElementById('overlay');
+//startGame button vars
+    const startGame = document.querySelector('.btn__reset');
+//addPhraseToDisplay function vars
+    const charactersLI = document.querySelector('#phrase ul');
+// keyboard buttons vars
+    const keys = document.getElementById('qwerty');
+    const allButtons = keys.querySelectorAll('.keyrow > button');
+    const arrayButtons = Array.from(allButtons);
+// heart vars
+    let missed = 0;
+    const heartQuery = document.querySelector('#scoreboard');
+    const heartQuerAll = heartQuery.querySelectorAll('ol > li > img');
+    const imagesHearts = heartQuerAll.childNodes;
+//checkWin function vars
+    const ggOrFfText = document.getElementsByClassName('title');
+    const classShow = document.getElementsByClassName('show');
+    const classLetter = document.getElementsByClassName('letter');
 
-startGame.style.cursor = 'pointer';
+
+
+
 
 startGame.addEventListener('click', () => {
-    const overlay = document.getElementById('overlay');
+    startGame.style.cursor = 'pointer';
     overlay.style.display = 'none';
+
+    if (overlay.classList.contains('lose', 'win')) {
+        //overlay
+        overlay.style.display = 'none';
+        //keyboard
+
+        //heart
+        for ( i = 0; i < heartQuerAll.length; i++ ) {
+            const heartAll = heartQuerAll[i];
+            heartAll.setAttribute('src','images/liveHeart.png');
+        }
+        missed = 0;
+    }
 });
 
 
@@ -15,7 +46,7 @@ const phrases = [
     'today is a good day',
     'would love some tacos',
     'redemption song',
-    'wind instrumets are the coolest',
+    'wind instrumets are best',
     'to be or not to be'
 ];
 
@@ -32,11 +63,11 @@ function getRandomPhraseAsArray(arr) {
 // This function will get the chosen array from above funct to show on html li and goota do conditional statments now
 
 function addPhraseToDisplay(arr) {
-    const charactersLI = document.querySelector('#phrase ul');
     for ( let i = 0; i < arr.length; i++ ) {
-        charactersRdy = document.createElement('li');
+        const charactersRdy = document.createElement('li');
         charactersRdy.innerHTML = arr[i];
         if (  arr[i] === ' ') {
+            charactersRdy.className += 'space';
             
         } else {
             charactersRdy.className += 'letter';
@@ -49,38 +80,29 @@ function addPhraseToDisplay(arr) {
 const phraseArray = getRandomPhraseAsArray(phrases);
 addPhraseToDisplay(phraseArray);
 
-// function checkLetter2(guessedLetter) {
-    // agarro los elementos 'li' que tienen la clase 'letter'
-    // encontrar si la letra que le doy matchea o no
-    // si matchea le agrego clase show, si no la funcion da
-// }
-// checkLetter function
-// let matchedLetter = ``;
 const checkLetter = function (guessedLetter) {
     const characters = document.getElementsByClassName('letter');
     const arrayCharacters = Array.from(characters);
+    
     let matchedLetter = null;
     for( i = 0; i < arrayCharacters.length; i++ ) {
         if ( arrayCharacters[i].innerHTML.includes(guessedLetter) ) {
             arrayCharacters[i].classList.add('show');
+            arrayCharacters[i].style.transition = "all .1s ease-in";
             matchedLetter = guessedLetter;
         }
     }
     return matchedLetter;
 }
 
-const allButtons = keys.querySelectorAll('.keyrow > button');
-const arrayButtons = Array.from(allButtons);
-const heartQuery = document.querySelector('#scoreboard');
 for (let i = 0 ; i < arrayButtons.length; i++) {
     arrayButtons[i].style.cursor = 'pointer';
     arrayButtons[i].addEventListener('click', () => {
         arrayButtons[i].className = 'chosen';
         arrayButtons[i].disabled = true;
         let letterFound = checkLetter(arrayButtons[i].innerHTML);
-        const heartQuerAll = heartQuery.querySelectorAll('ol > li > img');
-        const heartCount = heartQuerAll[missed]
         if (letterFound === null) {
+            const heartCount = heartQuerAll[missed];
             missed++;
             heartCount.setAttribute('src','images/lostHeart.png');
         }
@@ -89,18 +111,26 @@ for (let i = 0 ; i < arrayButtons.length; i++) {
 
     
 }
-const checkWin = function (classes) {
-    const classShow = document.getElementsByClassName('show');
+const checkWin = function () {
     const arrayClassShow = Array.from(classShow);
-    const classLetter = document.getElementsByClassName('letter');
     const arrayClassLetter = Array.from(classLetter);
-    // for ( i = 0; i < arrayClassShow.length; i++ ) {
         if ( arrayClassShow.length === arrayClassLetter.length ) {
-            console.log('won!');
+            overlay.style.display = 'flex';
+            overlay.className = 'win';
+            ggOrFfText[0].innerText = 'WIN' ;
         } else if ( missed === 5) {
-            console.log('F');
+            overlay.style.display = 'flex';
+            overlay.className = 'lose';
+            ggOrFfText[0].innerText = 'LOSE' ;
+            
         }
 
-    // }
 
 }
+
+
+
+
+// Generating reset button
+
+// addPhraseToDisplay.apply(null, phraseArray) this would make new li array show up
